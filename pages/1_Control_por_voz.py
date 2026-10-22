@@ -31,9 +31,27 @@ client1.on_message = on_message
 st.title("INTERFACES MULTIMODALES")
 st.subheader("CONTROL POR VOZ")
 
-image = Image.open('../imagen.avif')
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-st.image(image, width=200)
+rutas = [
+    os.path.join(BASE_DIR, "imagen.avif"),
+    os.path.join(BASE_DIR, "pages", "imagen.avif"),
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "imagen.avif"),
+]
+
+IMAGE_PATH = next((ruta for ruta in rutas if os.path.isfile(ruta)), None)
+
+if IMAGE_PATH:
+    image = Image.open(IMAGE_PATH)
+    st.image(image, width=200)
+else:
+    st.error("No se encontró imagen.avif")
+    st.write("Carpeta principal:", BASE_DIR)
+    st.write("Archivos en la carpeta principal:", os.listdir(BASE_DIR))
+    st.write(
+        "Archivos en pages:",
+        os.listdir(os.path.join(BASE_DIR, "pages"))
+    )
 
 
 
